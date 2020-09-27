@@ -1,26 +1,51 @@
 <template>
-  <div>
-     <q-dialog v-model="alert">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section>
+  <q-card style="width: 80%">
+    <q-card-section>
+      <div class="text-h6">Add Task</div>
+    </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
-        </q-card-section>
+    <q-card-section class="q-pt-none">
+      <q-form              
+        class="q-gutter-md"
+        >
+        
+        <q-input
+          filled
+          v-model="title"
+          label="Task Title"
+          hint="Task title..."
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Please type something']"
+        />
+      
+        <q-toggle v-model="complete" label="Completed" />
 
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+      </q-form>
+    </q-card-section>
+
+    <q-card-actions align="right">
+      <q-btn flat label="Cancel" color="negative" v-close-popup />
+      <q-btn flat label="Save" @click="onSubmit" color="primary" v-close-popup />
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script>
 export default {
-
+  data() {
+    return {
+      title: '',
+      complete: false
+    }
+  },
+  methods: {
+    onSubmit(){      
+      this.$emit('savetask', {
+        title:this.title,
+        complete:this.complete
+      })
+    }
+  },
 }
 </script>
 
