@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="width: 100%">
     <q-list bordered padding>
       
-      <q-item-label header>Tasks List</q-item-label>
+      <q-item-label header>Tasks List <span style="color: red" v-if="!tasks.length">(No tasks!)</span></q-item-label>
 
       <q-item v-for="task in tasks" :key="task.id" tag="label" v-ripple>
         <q-item-section>
