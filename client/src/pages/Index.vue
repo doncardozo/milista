@@ -6,7 +6,7 @@
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab 
              icon="add" 
-             color="accent"
+             color="primary"
              @click="showAddTask = true"
               />
     </q-page-sticky>
@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     save(o){
+      this.$q.loading.show()
       axiosInstance
       .post('/api/task-create/', o)
       .then((resp) => {
@@ -50,21 +51,27 @@ export default {
           message: 'successfull',
           color: 'green'
         })
-        this.getList()
+        this.getList()        
       })
       .catch(err => {
         this.$q.notify({
           message: 'Error',
           color: 'negative'
         })
+        this.$q.loading.hide()
       })
     },
     getList(){
+      this.$q.loading.show()
       axiosInstance.get('/api/task-list/')
       .then((resp) => {
-        this.tasks = resp.data      
+        this.tasks = resp.data
+        this.$q.loading.hide()      
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+        this.$q.loading.hide()
+      })
     }
   },
 }
