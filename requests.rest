@@ -1,0 +1,27 @@
+GET http://127.0.0.1:8000/api
+Content-Type: application/json
+
+###
+GET http://127.0.0.1:8000/api/task-list/
+Content-Type: application/json
+
+###
+POST http://127.0.0.1:8000/api/task-create/
+Content-Type: application/json
+
+{
+  "title": "Hacer el frontend con Quasar",
+  "complete": false
+}
+
+###
+PUT http://127.0.0.1:8000/api/task-update/3/
+Content-Type: application/json
+
+{
+  "title": "Hacer otro programa",
+  "complete": true
+}
+
+###
+DELETE http://127.0.0.1:8000/api/task-delete/2/
