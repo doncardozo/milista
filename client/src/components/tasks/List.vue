@@ -9,7 +9,7 @@
           <q-item-label>{{task.title}}</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-checkbox color="blue" v-model="task.complete" />
+          <q-checkbox color="green" v-model="task.complete" />
         </q-item-section>
       </q-item>
 
