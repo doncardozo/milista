@@ -9,8 +9,7 @@
         class="q-gutter-md"
         >
         
-        <q-input
-          filled
+        <q-input        
           v-model="title"
           label="Task Title"
           hint="Task title..."

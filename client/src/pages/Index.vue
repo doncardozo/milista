@@ -1,7 +1,10 @@
 <template>
   <q-page class="flex">     
     
-    <List :tasks="tasks" />
+    <List
+      @deletetask="del" 
+      :tasks="tasks" 
+      />
     
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab 
@@ -13,7 +16,7 @@
 
     <q-dialog v-model="showAddTask">
       <AddTask
-        @savetask="save" 
+        @savetask="save"        
         @close="showAddTask = false" 
         />
     </q-dialog>
@@ -46,6 +49,25 @@ export default {
       this.$q.loading.show()
       axiosInstance
       .post('/api/task-create/', o)
+      .then((resp) => {
+        this.$q.notify({
+          message: 'successfull',
+          color: 'green'
+        })
+        this.getList()        
+      })
+      .catch(err => {
+        this.$q.notify({
+          message: 'Error',
+          color: 'negative'
+        })
+        this.$q.loading.hide()
+      })
+    },
+    del(id){
+      this.$q.loading.show()
+      axiosInstance
+      .delete(`/api/task-delete/${id}/`)
       .then((resp) => {
         this.$q.notify({
           message: 'successfull',
