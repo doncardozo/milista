@@ -9,7 +9,7 @@
           <q-item-label>{{task.title}}</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-btn flat round color="negative" @click="deletetask(task.id)" icon="delete" />
+          <q-btn flat round color="negative" @click="confirmDelete(task.id)" icon="delete" />
         </q-item-section>
         <q-item-section side >
           <q-btn flat round color="primary" icon="edit" />
@@ -20,17 +20,39 @@
       </q-item>
     </q-list>
 
+    <q-dialog v-model="showDeleteDialog" persistent class="coco">
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="delete" color="negative" text-color="white" />
+          <span class="q-ml-sm">Are you sure to delete this record?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Delete" id="btn-delete" @click="deletetask()" color="negative" v-close-popup />
+          <q-btn flat label="Cancel" @click="showDeleteDialog = false" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </div>
 </template>
 <script>
 export default {
   props: ['tasks'],
-  computed: {
-    
+  data(){
+    return {
+      showDeleteDialog: false
+    }
   },
   methods: {
-    deletetask(id){
-      this.$emit('deletetask', id)
+    deletetask(){ 
+      let idItem = localStorage.getItem("id_item")     
+      localStorage.removeItem("id_item")
+      this.$emit('deletetask', idItem)
+    },
+    confirmDelete(id){
+      this.showDeleteDialog = true
+      localStorage.setItem('id_item', id)
     }
   },
 }

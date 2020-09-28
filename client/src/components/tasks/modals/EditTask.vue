@@ -11,14 +11,14 @@
         
         <q-input
           filled
-          v-model="title"
+          v-model="task.title"
           label="Task Title"
           hint="Task title..."
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Please type something']"
         />
       
-        <q-toggle v-model="complete" label="Completed" />
+        <q-toggle v-model="task.complete" label="Completed" />
 
       </q-form>
     </q-card-section>
