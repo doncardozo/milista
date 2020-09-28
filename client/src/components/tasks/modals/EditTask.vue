@@ -25,12 +25,14 @@
 
     <q-card-actions align="right">
       <q-btn flat label="Cancel" color="negative" v-close-popup />
-      <q-btn flat label="Save" @click="onSubmit" color="primary" v-close-popup />
+      <q-btn flat label="Update" @click="onSubmit(task)" color="primary" v-close-popup />
     </q-card-actions>
   </q-card>
 </template>
 
 <script>
+import { axiosInstance } from '../../../boot/axios'
+
 export default {
   props: ['task'],
   data() {
@@ -39,13 +41,32 @@ export default {
       complete: false
     }
   },
-  methods: {
-    onSubmit(){      
-      this.$emit('savetask', {
-        title:this.title,
-        complete:this.complete
-      })
+  computed: {
+    isCompleted(){
+      return this.task.complete
     }
+  },
+  methods: {
+    onSubmit(o){      
+      this.$q.loading.show()
+      axiosInstance
+      .put(`/api/task-update/${o.id}/`, o)
+      .then((resp) => {
+        this.$q.notify({
+          message: 'successfull',
+          color: 'green'
+        })
+        this.$parent.$emit('getist')
+      })
+      .catch(err => {
+        this.$q.notify({
+          message: 'Error',
+          color: 'negative'
+        })
+        this.$q.loading.hide()
+      })
+    },
+
   },
 }
 </script>

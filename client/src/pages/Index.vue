@@ -83,6 +83,9 @@ export default {
         this.$q.loading.hide()
       })
     },
+    update(){
+
+    },
     getList(){
       this.$q.loading.show()
       axiosInstance.get('/api/task-list/')

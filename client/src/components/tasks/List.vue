@@ -12,11 +12,19 @@
           <q-btn flat round color="negative" @click="confirmDelete(task.id)" icon="delete" />
         </q-item-section>
         <q-item-section side >
-          <q-btn flat round color="primary" icon="edit" />
+          <q-btn flat round color="primary" @click="showEditTask = true" icon="edit" />
         </q-item-section>
         <q-item-section side >
           <q-checkbox color="green" v-model="task.complete" />
         </q-item-section>
+
+        <q-dialog v-model="showEditTask">
+          <EditTask            
+            @close="showEditTask = false"        
+            :task="task"
+            />
+        </q-dialog>
+
       </q-item>
     </q-list>
 
@@ -37,11 +45,18 @@
   </div>
 </template>
 <script>
+
+import EditTask from '../../components/tasks/modals/EditTask'
+
 export default {
   props: ['tasks'],
+  components: {
+    EditTask
+  },
   data(){
     return {
-      showDeleteDialog: false
+      showDeleteDialog: false,
+      showEditTask: false
     }
   },
   methods: {
@@ -53,7 +68,10 @@ export default {
     confirmDelete(id){
       this.showDeleteDialog = true
       localStorage.setItem('id_item', id)
-    }
+    },
+    // update(task){
+    //   this.$emit('updatetask', task)
+    // }
   },
 }
 </script>
