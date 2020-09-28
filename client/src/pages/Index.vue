@@ -19,7 +19,7 @@
         @savetask="save"        
         @close="showAddTask = false" 
         />
-    </q-dialog>
+    </q-dialog> 
 
   </q-page>
 </template>
