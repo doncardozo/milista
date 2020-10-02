@@ -6,15 +6,12 @@
   "author": "doncardozo <oa.cardozoz@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "cd client && quasar dev",    
+    "dev": "cd client && quasar dev",
     "build": "cd client && yarn install && yarn build"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
-  "browserslist": [
-  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "browserslist": [],
   "engines": {
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",

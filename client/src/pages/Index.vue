@@ -14,7 +14,7 @@
               />
     </q-page-sticky>
 
-    <q-dialog v-model="showAddTask">
+    <q-dialog v-model="showAddTask" persistent>
       <AddTask
         @savetask="save"        
         @close="showAddTask = false" 
@@ -54,6 +54,7 @@ export default {
           message: 'successfull',
           color: 'green'
         })
+        this.showAddTask = false
         this.getList()        
       })
       .catch(err => {

@@ -9,13 +9,14 @@
         class="q-gutter-md"
         >
         
-        <q-input
-          filled
+        <q-input          
           v-model="task.title"
           label="Task Title"
           hint="Task title..."
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Please type something']"
+          @keyup.enter="onSubmit"
+          autofocus
         />
       
         <q-toggle v-model="task.complete" label="Completed" />
@@ -34,12 +35,15 @@
 import { axiosInstance } from '../../../boot/axios'
 
 export default {
-  props: ['task'],
+  props: ['id','task'],
   data() {
     return {
       title: '',
       complete: false
     }
+  },
+  created() {
+    console.log(this.task, this.id)
   },
   computed: {
     isCompleted(){
@@ -50,12 +54,13 @@ export default {
     onSubmit(o){      
       this.$q.loading.show()
       axiosInstance
-      .put(`/api/task-update/${o.id}/`, o)
+      .put(`/api/task-update/${id}/`, o)
       .then((resp) => {
         this.$q.notify({
           message: 'successfull',
           color: 'green'
         })
+        this.$q.notify.hide()
         this.$parent.$emit('getist')
       })
       .catch(err => {

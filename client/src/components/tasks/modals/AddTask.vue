@@ -15,6 +15,8 @@
           hint="Task title..."
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Please type something']"
+          @keyup.enter="onSubmit"
+          autofocus          
         />
       
         <q-toggle v-model="complete" label="Completed" />

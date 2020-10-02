@@ -11,30 +11,27 @@
           <q-btn flat round color="negative" @click="showDeleteDialog = true" icon="delete" />
         </q-item-section>
         <q-item-section side >
-          <q-btn flat round color="primary" @click="showEditTask = true" icon="edit" />
+          <q-btn flat round color="primary" @click="openEditDialog(task)" icon="edit" />
         </q-item-section>
         <q-item-section side >
           <q-checkbox color="green" v-model="task.complete" />
         </q-item-section>
-
-        <q-dialog v-model="showEditTask">
-          <EditTask            
-            @close="showEditTask = false"        
-            :task="task"
-            />
-        </q-dialog>
-
-        <q-dialog v-model="showDeleteDialog" persistent>>
-          <DeleteModal
-            @close="showDeleteDialog = false"    
-            @deletetask="del"        
-            :showDeleteDialog="showDeleteDialog"
-            :id="task.id"
-          />
-        </q-dialog>
-
       </q-item>
     </q-list>
+
+    <q-dialog v-model="showEditTask" persistent>
+      <EditTask            
+        @close="showEditTask = false"        
+        />
+    </q-dialog>
+
+    <q-dialog v-model="showDeleteDialog" persistent>
+      <DeleteModal
+        @close="showDeleteDialog = false"   
+        @deletetask="del"            
+      />
+    </q-dialog>
+
   </div>
 </template>
 <script>
@@ -56,6 +53,9 @@ export default {
   methods: {
     del(id){ 
       this.$emit('deletetask', id)
+    },
+    openEditDialog(task){
+      
     }
   },
 }
