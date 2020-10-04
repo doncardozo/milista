@@ -45,6 +45,7 @@ export default {
         title:this.title,
         complete:this.complete
       })
+      this.$emit('close')
     }
   },
 }

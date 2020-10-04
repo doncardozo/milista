@@ -25,7 +25,8 @@
 
     <q-dialog v-model="showAddTask" persistent>
       <AddTask
-        @savetask="save"        
+        @savetask="save"    
+        @keydown.enter="save"   
         @close="showAddTask = false" 
         />
     </q-dialog> 
