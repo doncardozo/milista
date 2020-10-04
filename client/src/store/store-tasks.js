@@ -37,7 +37,7 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  updateTask({commit}, payload){      
+  updateTask({commit, dispatch}, payload){      
     axiosInstance
     .put(`/api/task-update/${payload.updates.id}/`, payload.updates)
     .then((resp) => {      
