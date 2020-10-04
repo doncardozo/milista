@@ -8,7 +8,7 @@
           <q-item-label>{{task.title}}</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-btn flat round color="negative" @click="showDeleteDialog = true" icon="delete" />
+          <q-btn flat round color="negative" @click="del(task.id)" icon="delete" />
         </q-item-section>
         <q-item-section side >
           <q-btn flat round color="primary" @click="openEditDialog(task)" icon="edit" />
@@ -51,7 +51,7 @@ export default {
     }
   },
   methods: {
-    del(id){ 
+    del(id){       
       this.$emit('deletetask', id)
     },
     openEditDialog(task){

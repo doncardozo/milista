@@ -3,7 +3,7 @@
     
     <List
       @deletetask="del" 
-      :tasks="tasks" 
+      :tasks="getTasks" 
       />
     
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -29,6 +29,9 @@
 import { axiosInstance } from 'boot/axios'
 import List from '../components/tasks/List'
 import AddTask from '../components/tasks/modals/AddTask'
+import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'PageIndex',
@@ -42,63 +45,42 @@ export default {
     }
   },  
   created(){
-    this.getList()
+    this.loadData()            
+  },
+  computed: {    
+    ...mapGetters('tasks', ['getTasks']),
   },
   methods: {
-    save(o){
+    ...mapActions('tasks', ['loadData', 'createTask', 'deleteTask']),    
+    save(data){
       this.$q.loading.show()
-      axiosInstance
-      .post('/api/task-create/', o)
-      .then((resp) => {
-        this.$q.notify({
-          message: 'successfull',
-          color: 'green'
-        })
-        this.showAddTask = false
-        this.getList()        
-      })
-      .catch(err => {
-        this.$q.notify({
-          message: 'Error',
-          color: 'negative'
-        })
-        this.$q.loading.hide()
-      })
+      this.createTask(data)      
+      .then(this.$q.loading.hide())
+      .then(this.successNotify())
+      .catch(err => this.errorNotify())
     },
-    del(id){
+    del(id){      
       this.$q.loading.show()
-      axiosInstance
-      .delete(`/api/task-delete/${id}/`)
-      .then((resp) => {
-        this.$q.notify({
-          message: 'successfull',
-          color: 'green'
-        })
-        this.getList()        
-      })
-      .catch(err => {
-        this.$q.notify({
-          message: 'Error',
-          color: 'negative'
-        })
-        this.$q.loading.hide()
-      })
+      this.deleteTask(id)
+      .then(this.$q.loading.hide())
+      .then(this.successNotify())
+      .catch(err => this.errorNotify())
     },
     update(){
 
     },
-    getList(){
-      this.$q.loading.show()
-      axiosInstance.get('/api/task-list/')
-      .then((resp) => {
-        this.tasks = resp.data
-        this.$q.loading.hide()      
+    errorNotify(){
+      this.$q.notify({
+        message: 'Error',
+        color: 'negative'
       })
-      .catch((err) => {
-        console.error(err)
-        this.$q.loading.hide()
+    },
+    successNotify(){
+      this.$q.notify({
+          message: 'Successfull',
+          color: 'green'
       })
     }
-  },
+  }
 }
 </script>
