@@ -1,10 +1,19 @@
 <template>
   <q-page class="flex">     
     
-    <List
-      @deletetask="del" 
-      :tasks="getTasks" 
-      />
+  <div class="q-pa-md" style="width: 100%">    
+    <div v-if="!Object.keys(getTasks).length" class="negative">No tasks!</div>
+    <q-list v-else bordered padding>      
+      <q-item-label header>Tasks List</q-item-label>
+
+      <Task v-for="(task, key) in getTasks"
+        :key="key"
+        :task="task"
+        :id="key"    
+        />
+
+    </q-list>
+  </div>
     
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab 
@@ -27,16 +36,15 @@
 <script>
 
 import { axiosInstance } from 'boot/axios'
-import List from '../components/tasks/List'
+import Task from '../components/tasks/Task'
 import AddTask from '../components/tasks/modals/AddTask'
-import { mapState } from 'vuex'
 import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'PageIndex',
   components: {
-    List, AddTask
+    Task, AddTask
   },
   data(){
     return {
@@ -51,23 +59,13 @@ export default {
     ...mapGetters('tasks', ['getTasks']),
   },
   methods: {
-    ...mapActions('tasks', ['loadData', 'createTask', 'deleteTask']),    
+    ...mapActions('tasks', ['loadData', 'createTask']),    
     save(data){
       this.$q.loading.show()
       this.createTask(data)      
       .then(this.$q.loading.hide())
       .then(this.successNotify())
       .catch(err => this.errorNotify())
-    },
-    del(id){      
-      this.$q.loading.show()
-      this.deleteTask(id)
-      .then(this.$q.loading.hide())
-      .then(this.successNotify())
-      .catch(err => this.errorNotify())
-    },
-    update(){
-
     },
     errorNotify(){
       this.$q.notify({

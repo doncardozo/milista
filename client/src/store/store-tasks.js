@@ -6,11 +6,14 @@ const state = {
 }
 
 const mutations = {
+  LOAD_TASKS(state, tasks){           
+    state.tasks = tasks
+  },
   CREATE_TASK(state, payload){
     state.tasks.push(payload)
   },
-  UPDATE_TASKS(state, tasks){
-    state.tasks = tasks
+  UPDATE_TASK(state, payload){           
+    Object.assign(state.tasks[payload.id], payload.updates)
   },
   DELETE_TASK(state, id){
     Vue.delete(state.tasks, id)
@@ -22,7 +25,7 @@ const actions = {
     axiosInstance
     .get('/api/task-list/')
     .then((resp) => {      
-      commit('UPDATE_TASKS', resp.data)
+      commit('LOAD_TASKS', resp.data)
     })
   },
   createTask({commit, dispatch}, payload){
@@ -34,8 +37,14 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  updateTask({commit}, payload){
-    commit('UPDATE_TASK', payload)
+  updateTask({commit}, payload){      
+    axiosInstance
+    .put(`/api/task-update/${payload.updates.id}/`, payload.updates)
+    .then((resp) => {      
+      commit('UPDATE_TASK', payload)
+      dispatch('loadData')
+    })
+    .catch(err => console.log(err))
   },
   deleteTask({commit, dispatch}, id){
     axiosInstance

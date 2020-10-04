@@ -6,72 +6,55 @@
 
     <q-card-section class="q-pt-none">
       <q-form              
-        class="q-gutter-md"
+        class="q-gutter-md"        
         >
         
         <q-input          
-          v-model="task.title"
+          v-model="taskToSubmit.title" 
           label="Task Title"
           hint="Task title..."
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type something']"
-          @keyup.enter="onSubmit"
+          :rules="[ val => val && val.length > 0 || 'Please type something']"          
           autofocus
         />
       
-        <q-toggle v-model="task.complete" label="Completed" />
+        <q-toggle v-model="taskToSubmit.complete" label="Completed" />
 
       </q-form>
     </q-card-section>
 
     <q-card-actions align="right">
       <q-btn flat label="Cancel" color="negative" v-close-popup />
-      <q-btn flat label="Update" @click="onSubmit(task)" color="primary" v-close-popup />
+      <q-btn flat label="Update" @click="submitForm" color="primary" v-close-popup />
     </q-card-actions>
   </q-card>
 </template>
 
 <script>
-import { axiosInstance } from '../../../boot/axios'
+
+import { mapActions } from 'vuex'
 
 export default {
   props: ['id','task'],
   data() {
     return {
-      title: '',
-      complete: false
+      taskToSubmit: {}
     }
   },
-  created() {
-    console.log(this.task, this.id)
-  },
-  computed: {
-    isCompleted(){
-      return this.task.complete
-    }
+  mounted() {
+    let v = this
+    v.taskToSubmit = Object.assign({}, this.task)
   },
   methods: {
-    onSubmit(o){      
-      this.$q.loading.show()
-      axiosInstance
-      .put(`/api/task-update/${id}/`, o)
-      .then((resp) => {
-        this.$q.notify({
-          message: 'successfull',
-          color: 'green'
-        })
-        this.$q.notify.hide()
-        this.$parent.$emit('getist')
+    ...mapActions('tasks', ['updateTask']),
+    submitForm(){      
+      this.updateTask({
+        id: this.id,
+        updates: this.taskToSubmit
       })
-      .catch(err => {
-        this.$q.notify({
-          message: 'Error',
-          color: 'negative'
-        })
-        this.$q.loading.hide()
-      })
-    },
-
+      this.$emit('close')
+    }
+    
   },
 }
 </script>

@@ -8,7 +8,7 @@
           <q-item-label>{{task.title}}</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-btn flat round color="negative" @click="del(task.id)" icon="delete" />
+          <q-btn flat round color="negative" @click="openDeleteDialog(task.id)" icon="delete" />
         </q-item-section>
         <q-item-section side >
           <q-btn flat round color="primary" @click="openEditDialog(task)" icon="edit" />
@@ -27,8 +27,7 @@
 
     <q-dialog v-model="showDeleteDialog" persistent>
       <DeleteModal
-        @close="showDeleteDialog = false"   
-        @deletetask="del"            
+        @close="showDeleteDialog = false"       
       />
     </q-dialog>
 
@@ -38,6 +37,7 @@
 
 import EditTask from '../../components/tasks/modals/EditTask'
 import DeleteModal from '../../components/tasks/modals/DeleteModal'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['tasks'],
@@ -51,11 +51,14 @@ export default {
     }
   },
   methods: {
-    del(id){       
-      this.$emit('deletetask', id)
+    // ...mapActions('tasks'),
+    openDeleteDialog(id){
+      localStorage.setItem('idToDel', id)
+      this.showDeleteDialog = true
     },
     openEditDialog(task){
-      
+      localStorage.setItem('taskToEdit', task)
+      this.showEditTask = true
     }
   },
 }
