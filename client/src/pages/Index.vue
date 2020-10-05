@@ -53,10 +53,10 @@ export default {
       showAddTask: false
     }
   },  
-  created(){
+  created(){    
     this.$q.loading.show()
     this.loadData()
-    .then(this.$q.loading.hide())    
+    .then(this.$q.loading.hide())
   },
   computed: {    
     ...mapGetters('tasks', ['getTasks']),

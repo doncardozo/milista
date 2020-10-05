@@ -21,15 +21,15 @@ const mutations = {
 }
 
 const actions = {
-  loadData({commit}){
-    axiosInstance
+  async loadData({commit}){
+    await axiosInstance
     .get('/api/task-list/')
     .then((resp) => {      
       commit('LOAD_TASKS', resp.data)
     })
   },
-  createTask({commit, dispatch}, payload){
-    axiosInstance
+  async createTask({commit, dispatch}, payload){
+    await axiosInstance
     .post('/api/task-create/', payload)
     .then((resp) => {      
       commit('CREATE_TASK', payload)
@@ -37,8 +37,8 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  updateTask({commit, dispatch}, payload){      
-    axiosInstance
+  async updateTask({commit, dispatch}, payload){     
+    await axiosInstance
     .put(`/api/task-update/${payload.updates.id}/`, payload.updates)
     .then((resp) => {      
       commit('UPDATE_TASK', payload)
@@ -46,8 +46,8 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  deleteTask({commit, dispatch}, id){
-    axiosInstance
+  async deleteTask({commit, dispatch}, id){
+    await axiosInstance
     .delete(`/api/task-delete/${id}/`)
     .then((resp) => {   
       commit('DELETE_TASK', id)
