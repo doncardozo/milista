@@ -54,7 +54,9 @@ export default {
     }
   },  
   created(){
-    this.loadData()            
+    this.$q.loading.show()
+    this.loadData()
+    .then(this.$q.loading.hide())    
   },
   computed: {    
     ...mapGetters('tasks', ['getTasks']),

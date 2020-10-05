@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     ...mapActions("tasks", ["deleteTask", "updateTask"]),
-    promptToDelete(id) {
+    promptToDelete(id) {      
       this.$q
         .dialog({
           title: "confirm",
@@ -78,7 +78,9 @@ export default {
           persistent: true,
         })
         .onOk(() => {
-          this.deleteTask(id);
+          this.$q.loading.show()
+          this.deleteTask(id)
+          .then(this.$q.loading.hide())
         });
     },
   },

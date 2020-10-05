@@ -10,11 +10,12 @@
         >
         
         <q-input          
-          v-model="taskToSubmit.title" 
+          v-model="taskToSubmit.title"       
           label="Task Title"
           hint="Task title..."
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Please type something']"      
+          @keyup.enter="submitForm"
           autofocus
         />
       
@@ -25,7 +26,7 @@
 
     <q-card-actions align="right">
       <q-btn flat label="Cancel" color="negative" v-close-popup />
-      <q-btn flat label="Update" @click="submitForm" @keydown.enter="submitForm" color="primary" v-close-popup />
+      <q-btn flat label="Update" @click="submitForm" color="primary" v-close-popup />
     </q-card-actions>
   </q-card>
 </template>
@@ -47,11 +48,13 @@ export default {
   },
   methods: {
     ...mapActions('tasks', ['updateTask']),
-    submitForm(){      
+    submitForm(){           
+      this.$q.loading.show() 
       this.updateTask({
         id: this.id,
         updates: this.taskToSubmit
       })
+      .then(this.$q.loading.hide())
       this.$emit('close')
     }
     
