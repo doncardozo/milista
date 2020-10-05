@@ -12,7 +12,7 @@ const mutations = {
   CREATE_TASK(state, payload){
     state.tasks.push(payload)
   },
-  UPDATE_TASK(state, payload){           
+  UPDATE_TASK(state, payload){        
     Object.assign(state.tasks[payload.id], payload.updates)
   },
   DELETE_TASK(state, id){
@@ -33,7 +33,7 @@ const actions = {
     .post('/api/task-create/', payload)
     .then((resp) => {      
       commit('CREATE_TASK', payload)
-      dispatch('loadData')
+      // dispatch('loadData')
     })
     .catch(err => console.log(err))
   },
@@ -42,7 +42,7 @@ const actions = {
     .put(`/api/task-update/${payload.updates.id}/`, payload.updates)
     .then((resp) => {      
       commit('UPDATE_TASK', payload)
-      dispatch('loadData')
+      // dispatch('loadData')
     })
     .catch(err => console.log(err))
   },

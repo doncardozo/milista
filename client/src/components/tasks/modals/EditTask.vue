@@ -14,18 +14,18 @@
           label="Task Title"
           hint="Task title..."
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type something']"          
+          :rules="[ val => val && val.length > 0 || 'Please type something']"      
           autofocus
         />
       
-        <q-toggle v-model="taskToSubmit.complete" label="Completed" />
+        <!-- <q-toggle v-model="taskToSubmit.complete" label="Completed" /> -->
 
       </q-form>
     </q-card-section>
 
     <q-card-actions align="right">
       <q-btn flat label="Cancel" color="negative" v-close-popup />
-      <q-btn flat label="Update" @click="submitForm" color="primary" v-close-popup />
+      <q-btn flat label="Update" @click="submitForm" @keydown.enter="submitForm" color="primary" v-close-popup />
     </q-card-actions>
   </q-card>
 </template>

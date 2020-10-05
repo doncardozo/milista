@@ -19,7 +19,7 @@
           autofocus          
         />
       
-        <q-toggle v-model="complete" label="Completed" />
+        <!-- <q-toggle v-model="complete" label="Completed" /> -->
 
       </q-form>
     </q-card-section>
